@@ -1,0 +1,83 @@
+=============================================================
+           PHYSIOHOME - PLATFORM GUIDELINES
+=============================================================
+
+Welcome to PhysioHome! This document serves as a guideline to understand the project structure, features, and how to run the application locally.
+
+1. PROJECT OVERVIEW
+-------------------
+PhysioHome is a Full-stack Web Application for Professional Physical Therapy at home. 
+It consists of:
+- Frontend: React 18 with Vite (located in the root folder and `src/` directory).
+- Backend: Node.js & Express with MongoDB (located in the `backend/` directory).
+
+2. KEY FEATURES & USER FLOWS
+----------------------------
+The application is split into two main portals:
+
+A. Patient Portal
+   - AI Chat Onboarding: Describe pain to get an initial injury assessment.
+   - Interactive Pain Map: Clickable body map to specify pain locations.
+   - Doctor Recommendations: System matches patients with suitable physical therapists.
+   - Home Dashboard: View assigned exercises and progress.
+   - AI Camera Tracker: Uses MediaPipe to track patient movement during exercises.
+   - Messages: Chat directly with assigned therapists.
+
+B. Doctor Portal
+   - Dashboard: Overview of active patients and clinic statistics.
+   - Patient Management: View patient details, history, and medical reports.
+   - Treatment Plans: Assign exercises and create treatment plans for patients.
+   - Analytics: Track patient outcomes and compliance charts.
+   - Messages: Communicate with patients securely.
+
+3. HOW TO RUN THE PROJECT LOCALLY
+---------------------------------
+Because this is a full-stack project, you need to run both the Frontend and the Backend simultaneously. You will need two separate terminal windows.
+
+Step 1: Start the Frontend (Terminal 1)
+- Make sure you are in the root folder (`DEPI-Graduation`).
+- Run the command: `npm run dev`
+- The React app will be available at: http://localhost:5173
+
+Step 2: Start the Backend (Terminal 2)
+- Open a new terminal window.
+- Navigate to the backend folder: `cd backend`
+- Run the command: `npm run dev`
+- The Express API will be running at: http://localhost:5000
+
+4. TROUBLESHOOTING COMMON ISSUES
+--------------------------------
+Issue: "ECONNREFUSED 127.0.0.1:27017" or "ECONNREFUSED ::1:27017" when starting the Backend.
+Cause: The backend is trying to connect to a local MongoDB database, but MongoDB is not running on your computer.
+Solution: 
+- Make sure you have MongoDB installed on your system (e.g., MongoDB Community Server).
+- Start the MongoDB service. On Windows, you can open "Services" (services.msc), find "MongoDB Server", right-click, and select "Start".
+- Alternatively, you can change the `MONGO_URI` in `backend/.env` to point to a MongoDB Atlas cloud database url instead of your localhost.
+
+5. API CONNECTION & AUTHENTICATION
+----------------------------------
+The frontend is fully configured to automatically proxy API requests to the backend. In `vite.config.js`, any request starting with `/api` or `/uploads` is routed to `http://localhost:5000`. 
+The Patient and Doctor portals are completely integrated with the backend. All data fetching (patients, doctors, pain records, exercise sessions, and messages) uses live data from the MongoDB database, protected by JWT authentication via an AuthContext.
+
+6. WEBSITE LINKS (ROUTES)
+-------------------------
+When the React frontend is running (http://localhost:5173), you can navigate to the following links:
+
+Public Links:
+- Landing Page: http://localhost:5173/
+- Login/Signup Selection: http://localhost:5173/auth
+
+Patient Portal Links:
+- AI Chat (Onboarding): http://localhost:5173/patient/chat
+- Pain Map: http://localhost:5173/patient/pain-map
+- Find Doctors: http://localhost:5173/patient/doctors
+- Patient Dashboard: http://localhost:5173/patient/home
+- Camera Tracker: http://localhost:5173/patient/tracker
+- Messages: http://localhost:5173/patient/messages
+
+Doctor Portal Links:
+- Doctor Dashboard: http://localhost:5173/doctor/dashboard
+- Patients List: http://localhost:5173/doctor/patients
+- Analytics: http://localhost:5173/doctor/analytics
+- Messages: http://localhost:5173/doctor/messages
+- Settings: http://localhost:5173/doctor/settings
